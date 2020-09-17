@@ -102,3 +102,5 @@ app.service.ts
 打开浏览器输入:http://localhost:3000/user/info?id=1
 
 然后就可以看到返回的消息了
+
+## 连接数据库
