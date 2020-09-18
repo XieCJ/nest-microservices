@@ -2,10 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './logical/user/user.module';
+import { UserController } from './logical/user/user.controller';
+import { UserService } from './logical/user/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import dbConfig from './config/db';
 import { User } from './logical/user/user.entity';
+import { AuthService } from './logical/auth/auth.service';
+import { AuthModule } from './logical/auth/auth.module';
 
 
 @Module({
@@ -21,9 +25,10 @@ import { User } from './logical/user/user.entity';
       synchronize: true,
     }),
     UserModule,
+    AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, UserController],
   providers: [AppService],
 })
-export class AppModule { 
+export class AppModule {
 }

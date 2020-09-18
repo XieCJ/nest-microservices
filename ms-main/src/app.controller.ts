@@ -1,7 +1,8 @@
-import { Controller, Get, Query, Inject, Req,Post } from '@nestjs/common';
+import { Controller, Get, Query, Inject, Req, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import { Request } from 'express';
 interface User {
   id: number;
   accountName: string;
@@ -39,13 +40,16 @@ export class AppController {
   }
 
   @Get('/user/findUser')
-  findUser(@Query('id') id): any {
-    return this.client.send('user:findUser', id);
+  findUser(@Req() req: Request): any {
+    let authorization = req.get('authorization').replace("Bearer ", "");
+    console.log(authorization);
+    console.log(req.query);
+    return this.client.send('user:findUser', { id: req.query.id ,authorization});
   }
 
-  @Get('/user/login')
-  login(@Query('name') name: string): any {
-    return this.client.send('user:login', name);
+  @Post('/user/login')
+  login(@Req() req): any {
+    return this.client.send('user:login', req.body);
   }
 
   @Post('/user/register')
