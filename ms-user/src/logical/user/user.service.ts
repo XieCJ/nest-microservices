@@ -20,11 +20,19 @@ export class UserService {
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOne(1);
+    return this.usersRepository.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
+  }
+
+  getUserByName(accountName: string) {
+    return this.usersRepository.findOne({ accountName });
+  }
+
+  async addUser(user: User) {
+    return await this.usersRepository.insert(user);
   }
 
 }

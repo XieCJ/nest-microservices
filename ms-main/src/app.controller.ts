@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Inject } from '@nestjs/common';
+import { Controller, Get, Query, Inject, Req,Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
@@ -41,6 +41,16 @@ export class AppController {
   @Get('/user/findUser')
   findUser(@Query('id') id): any {
     return this.client.send('user:findUser', id);
+  }
+
+  @Get('/user/login')
+  login(@Query('name') name: string): any {
+    return this.client.send('user:login', name);
+  }
+
+  @Post('/user/register')
+  register(@Req() req): any {
+    return this.client.send('user:register', req.body);
   }
 
 }
